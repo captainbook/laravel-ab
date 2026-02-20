@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\Event;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    protected $experiments = [
+    /** @var array<int, string> */
+    protected array $experiments = [
         'firstExperiment',
         'secondExperiment',
     ];
-    protected $goals = [
+
+    /** @var array<int, string> */
+    protected array $goals = [
         'firstGoal',
         'secondGoal',
     ];

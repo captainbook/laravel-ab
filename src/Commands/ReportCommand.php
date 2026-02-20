@@ -34,17 +34,22 @@ class ReportCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $header = $this->prepareHeader();
         $body = $this->prepareBody();
 
         $this->table($header, $body);
+
+        return self::SUCCESS;
     }
 
-    public function prepareHeader()
+    /**
+     * @return array<int, string>
+     */
+    public function prepareHeader(): array
     {
         $header = [
             'Experiment',
@@ -56,7 +61,10 @@ class ReportCommand extends Command
         }, config('ab-testing.goals')));
     }
 
-    public function prepareBody()
+    /**
+     * @return \Illuminate\Support\Collection<int, array<int, mixed>>
+     */
+    public function prepareBody(): \Illuminate\Support\Collection
     {
         return Experiment::all()->map(function ($item) {
             $return = [$item->name, $item->visitors];

@@ -12,7 +12,8 @@ use Jaybizzle\CrawlerDetect\CrawlerDetect;
 
 class AbTesting
 {
-    protected $experiments;
+    /** @var \Illuminate\Support\Collection<int, \Ben182\AbTesting\Models\Experiment> */
+    protected \Illuminate\Support\Collection $experiments;
 
     const SESSION_KEY_EXPERIMENT = 'ab_testing_experiment';
     const SESSION_KEY_GOALS = 'ab_testing_goals';
@@ -27,7 +28,7 @@ class AbTesting
      *
      * @return void
      */
-    protected function start()
+    protected function start(): void
     {
         $configExperiments = config('ab-testing.experiments');
         $configGoals = config('ab-testing.goals');
@@ -68,16 +69,16 @@ class AbTesting
     /**
      * Triggers a new visitor. Picks a new experiment and saves it to the session.
      *
-     * @return \Ben182\AbTesting\Models\Experiment|void
+     * @return \Ben182\AbTesting\Models\Experiment|null
      */
-    public function pageView()
+    public function pageView(): ?Experiment
     {
         if (config('ab-testing.ignore_crawlers') && (new CrawlerDetect)->isCrawler()) {
-            return;
+            return null;
         }
 
         if (session(self::SESSION_KEY_EXPERIMENT)) {
-            return;
+            return null;
         }
 
         $this->start();
@@ -93,7 +94,7 @@ class AbTesting
      *
      * @return void
      */
-    protected function setNextExperiment()
+    protected function setNextExperiment(): void
     {
         $next = $this->getNextExperiment();
         $next->incrementVisitor();
@@ -108,7 +109,7 @@ class AbTesting
      *
      * @return \Ben182\AbTesting\Models\Experiment|null
      */
-    protected function getNextExperiment()
+    protected function getNextExperiment(): ?Experiment
     {
         $sorted = $this->experiments->sortBy('visitors');
 
@@ -121,7 +122,7 @@ class AbTesting
      * @param  string  $name  The experiments name
      * @return bool
      */
-    public function isExperiment(string $name)
+    public function isExperiment(string $name): bool
     {
         $this->pageView();
 
@@ -138,7 +139,7 @@ class AbTesting
      * @param  string  $goal  The goals name
      * @return \Ben182\AbTesting\Models\Goal|false
      */
-    public function completeGoal(string $goal)
+    public function completeGoal(string $goal): Goal|false
     {
         $this->pageView();
 
@@ -169,7 +170,7 @@ class AbTesting
      *
      * @return \Ben182\AbTesting\Models\Experiment|null
      */
-    public function getExperiment()
+    public function getExperiment(): ?Experiment
     {
         return session(self::SESSION_KEY_EXPERIMENT);
     }
@@ -177,9 +178,9 @@ class AbTesting
     /**
      * Returns all the completed goals.
      *
-     * @return \Illuminate\Support\Collection|false
+     * @return \Illuminate\Support\Collection<int, \Ben182\AbTesting\Models\Goal|null>|false
      */
-    public function getCompletedGoals()
+    public function getCompletedGoals(): Collection|false
     {
         if (! session(self::SESSION_KEY_GOALS)) {
             return false;

@@ -2,12 +2,12 @@
 
 namespace Ben182\AbTesting\Events;
 
+use Ben182\AbTesting\Models\Goal;
+
 class GoalCompleted
 {
-    public $goal;
-
-    public function __construct($goal)
-    {
-        $this->goal = $goal;
+    public function __construct(
+        public Goal $goal
+    ) {
     }
 }
