@@ -35,15 +35,13 @@ class ResetCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return mixed
      */
-    public function handle(): int
+    public function handle()
     {
         Goal::truncate();
         Experiment::truncate();
 
         $this->info('Successfully deleted all experiment visitors and goal completions.');
-
-        return self::SUCCESS;
     }
 }
