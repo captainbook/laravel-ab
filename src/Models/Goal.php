@@ -17,12 +17,12 @@ class Goal extends Model
         'hit' => 'integer',
     ];
 
-    public function experiment()
+    public function experiment(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Experiment::class);
     }
 
-    public function incrementHit()
+    public function incrementHit(): void
     {
         $this->increment('hit');
     }

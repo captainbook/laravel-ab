@@ -17,12 +17,12 @@ class Experiment extends Model
         'visitors' => 'integer',
     ];
 
-    public function goals()
+    public function goals(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Goal::class);
     }
 
-    public function incrementVisitor()
+    public function incrementVisitor(): void
     {
         $this->increment('visitors');
     }

@@ -36,15 +36,17 @@ class ReportCommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): int
     {
         $header = $this->prepareHeader();
         $body = $this->prepareBody();
 
         $this->table($header, $body);
+
+        return self::SUCCESS;
     }
 
-    public function prepareHeader()
+    public function prepareHeader(): array
     {
         $header = [
             'Experiment',
@@ -56,7 +58,7 @@ class ReportCommand extends Command
         }, config('ab-testing.goals')));
     }
 
-    public function prepareBody()
+    public function prepareBody(): \Illuminate\Support\Collection
     {
         return Experiment::all()->map(function ($item) {
             $return = [$item->name, $item->visitors];
