@@ -7,6 +7,7 @@
         "laravel",
         "laravel-package",
         "laravel-5-package",
+        "laravel-12-package",
         "ab-testing"
     ],
     "homepage": "https://github.com/ben182/laravel-ab",
