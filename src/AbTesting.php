@@ -27,7 +27,7 @@ class AbTesting
      *
      * @return void
      */
-    protected function start()
+    protected function start(): void
     {
         $configExperiments = config('ab-testing.experiments');
         $configGoals = config('ab-testing.goals');
@@ -93,7 +93,7 @@ class AbTesting
      *
      * @return void
      */
-    protected function setNextExperiment()
+    protected function setNextExperiment(): void
     {
         $next = $this->getNextExperiment();
         $next->incrementVisitor();
@@ -108,7 +108,7 @@ class AbTesting
      *
      * @return \Ben182\AbTesting\Models\Experiment|null
      */
-    protected function getNextExperiment()
+    protected function getNextExperiment(): ?Experiment
     {
         $sorted = $this->experiments->sortBy('visitors');
 
@@ -121,7 +121,7 @@ class AbTesting
      * @param  string  $name  The experiments name
      * @return bool
      */
-    public function isExperiment(string $name)
+    public function isExperiment(string $name): bool
     {
         $this->pageView();
 
@@ -169,7 +169,7 @@ class AbTesting
      *
      * @return \Ben182\AbTesting\Models\Experiment|null
      */
-    public function getExperiment()
+    public function getExperiment(): ?Experiment
     {
         return session(self::SESSION_KEY_EXPERIMENT);
     }
